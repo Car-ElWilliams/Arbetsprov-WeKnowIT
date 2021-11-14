@@ -101,19 +101,19 @@ const styles = StyleSheet.create({
   },
   
   primaryButton: {
-    backgroundColor: 'white',
+    backgroundColor: 'orange',
   },
   
   secondaryButton: {
-    backgroundColor: 'black',
+    backgroundColor: 'white',
   },
   
   primaryButtonTitle: {
-    color: 'black',
+    color: 'white',
   },
   
   secondaryButtonTitle: {
-    color: 'white',
+    color: 'black',
   },
 
   disabledButton: {
