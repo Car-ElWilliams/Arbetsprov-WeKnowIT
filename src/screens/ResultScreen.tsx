@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-const ResultScreen = ({ navigation }) => {
+const ResultScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View />
