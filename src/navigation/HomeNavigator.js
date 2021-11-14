@@ -11,6 +11,7 @@ const HomeNavigator = () => {
           key={screen.name}
           name={screen.name}
           component={screen.component}
+          options={{ headerShown: false }}
         />
       ))}
     </Stack.Navigator>

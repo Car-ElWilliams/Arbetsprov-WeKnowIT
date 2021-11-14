@@ -1,4 +1,4 @@
-const baseSpacing = 10;
+const baseSpacing = 20;
 
 export default {
   tiny: baseSpacing * 0.4,
