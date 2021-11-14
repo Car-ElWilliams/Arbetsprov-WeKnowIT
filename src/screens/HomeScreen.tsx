@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { Button } from '../common';
+import { Button, IconButton } from '../common';
 import { SEARCH_SCREEN } from '../navigation/constants/routes';
 
 const HomeScreen: React.FC<{navigation: any }> = ({ navigation }) => {
@@ -16,6 +16,7 @@ const HomeScreen: React.FC<{navigation: any }> = ({ navigation }) => {
         title="Search By Country"
         variant="country"
       />
+      <IconButton icon="search" onPress={() => null}/>
     </ScrollView>
   );
 };
