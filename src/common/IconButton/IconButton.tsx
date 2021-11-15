@@ -45,9 +45,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: 38 / 2,
-    width: 38,
-    height: 38,
+    borderRadius: 58 / 2,
+    width: 58,
+    height: 58,
     elevation: 4
   }
 });
