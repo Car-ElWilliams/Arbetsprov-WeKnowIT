@@ -1,5 +1,6 @@
 import HomeScreen from './HomeScreen';
 import SearchScreen from './SearchScreen';
-import ResultScreen from './ResultScreen';
+import CountryResultScreen from './CountryResultScreen';
+import CityResultScreen from './CityResultScreen';
 
-export { HomeScreen, SearchScreen, ResultScreen };
+export { HomeScreen, SearchScreen, CountryResultScreen, CityResultScreen };

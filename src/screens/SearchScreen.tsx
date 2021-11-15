@@ -9,14 +9,19 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { RESULT_SCREEN } from '../navigation/constants/routes';
+import {
+  COUNTRY_RESULT_SCREEN,
+  CITY_RESULT_SCREEN,
+} from '../navigation/constants/routes';
 
 const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
   navigation,
-  navigation: { goBack },
   route,
 }) => {
   const searchParam = route?.params?.search;
+  const NAVIGATION_KEY =
+  searchParam === 'city' ? CITY_RESULT_SCREEN : COUNTRY_RESULT_SCREEN;
+  
   const [textValue, setTextValue] = useState<string>('');
 
   const handleInputChange = (e: string) => {
@@ -27,30 +32,28 @@ const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
     const trimText = textValue.trim();
 
     //united states => United States
-    const capitalizeWords = trimText.replace(/(^\w|\s\w)/g, (letter) => 
-    letter.toUpperCase(),
+    const capitalizeWords = trimText.replace(/(^\w|\s\w)/g, (letter) =>
+      letter.toUpperCase(),
     );
 
-    return capitalizeWords
+    return capitalizeWords;
   };
 
   return (
     <Container style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flexGrow: 1 }}>
-          <StatusBar  barStyle="dark-content"/>
-   
+          <StatusBar barStyle="dark-content" />
           <Spacer spacing="extraLarge" orientation="vertical" />
           <View style={styles.searchContainer}>
             <Text style={styles.header}>
-              {' '}
               SEARCH BY {'\n'}
               {searchParam === 'city' ? 'CITY' : 'COUNTRY'}
             </Text>
             <Spacer spacing="extraLarge" orientation="vertical" />
             <TextInput
               onSubmitEditing={() =>
-                navigation.navigate(RESULT_SCREEN, {
+                navigation.navigate(COUNTRY_RESULT_SCREEN, {
                   searchQuery: capitalizeSearch(),
                   searchFilter: searchParam,
                 })
@@ -66,7 +69,7 @@ const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
               icon="search"
               iconSize="medium"
               onPress={() =>
-                navigation.navigate(RESULT_SCREEN, {
+                navigation.navigate(NAVIGATION_KEY, {
                   searchQuery: capitalizeSearch(),
                   searchFilter: searchParam,
                 })
