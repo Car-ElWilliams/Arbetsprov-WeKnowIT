@@ -4,3 +4,14 @@ Project showcases modular use of components (e.g IconButton) along with non-modu
 
 ## Notes 
 Project has not been created on a Apple commputer hence testing on IOS has not been done. However, due to the project simplicity in nature a simple cd podinstall should be enough to get it up and running
+
+## How To Start Project
+
+Android
+npx react-native start
+npx react-native run android
+
+Ios
+pod install 
+npx react-native start
+npx react-native run ios
