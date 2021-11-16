@@ -1,5 +1,15 @@
-import { HomeScreen, SearchScreen, ResultScreen } from '../../../screens';
-import { HOME_SCREEN, SEARCH_SCREEN, RESULT_SCREEN } from '../routes';
+import {
+  HomeScreen,
+  SearchScreen,
+  CountryResultScreen,
+  CityResultScreen,
+} from '../../../screens';
+import {
+  HOME_SCREEN,
+  SEARCH_SCREEN,
+  COUNTRY_RESULT_SCREEN,
+  CITY_RESULT_SCREEN,
+} from '../routes';
 
 export const HomeStack = [
   {
@@ -11,7 +21,11 @@ export const HomeStack = [
     component: SearchScreen,
   },
   {
-    name: RESULT_SCREEN,
-    component: ResultScreen,
+    name: COUNTRY_RESULT_SCREEN,
+    component: CountryResultScreen,
+  },
+  {
+    name: CITY_RESULT_SCREEN,
+    component: CityResultScreen,
   },
 ];

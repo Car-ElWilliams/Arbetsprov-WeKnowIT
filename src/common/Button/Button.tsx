@@ -125,7 +125,8 @@ const styles = StyleSheet.create({
   },
 
   sizeSmall: {
-    width: '33%',
+    width: '37%',
+    padding: 10
   },
 
   sizeMedium: {
