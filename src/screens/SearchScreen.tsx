@@ -4,11 +4,10 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  StatusBar,
   View,
   Keyboard,
   TouchableWithoutFeedback,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import {
   COUNTRY_RESULT_SCREEN,
@@ -23,8 +22,24 @@ const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
   const NAVIGATION_KEY =
     searchParam === 'city' ? CITY_RESULT_SCREEN : COUNTRY_RESULT_SCREEN;
 
-  const backgroundImage = searchParam === 'city' ? 'https://wallpaperaccess.com/full/856.jpg' : 'https://wallpaperaccess.com/full/290571.jpg'
+  const backgroundImage =
+    searchParam === 'city'
+      ? 'https://wallpaperaccess.com/full/856.jpg'
+      : 'https://wallpaperaccess.com/full/290571.jpg';
+
   const [textValue, setTextValue] = useState<string>('');
+
+  const handleSearch = (search: string) => {
+
+    //Checks empty string
+    if (!search.replace(/\s/g, '').length) {
+      setTextValue('Enter a ' + searchParam + ' name');
+    } else {
+      navigation.navigate(NAVIGATION_KEY, {
+        searchQuery: capitalizeSearch(),
+      });
+    }
+  };
 
   const handleInputChange = (e: string) => {
     setTextValue(e);
@@ -35,19 +50,21 @@ const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
 
     //united states => United States
     const capitalizeWords = trimText.replace(/(^\w|\s\w)/g, (letter) =>
-      letter.toUpperCase()
+      letter.toUpperCase(),
     );
 
     return capitalizeWords;
   };
 
   return (
-    <ImageBackground source={{ uri: backgroundImage }} style={styles.imageBackground} resizeMode="cover"
+    <ImageBackground
+      source={{ uri: backgroundImage }}
+      style={styles.imageBackground}
+      resizeMode="cover"
     >
       <Container style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ flexGrow: 1 }}>
-            <StatusBar barStyle="light-content" />
             <Spacer spacing="extraLarge" orientation="vertical" />
             <View style={styles.searchContainer}>
               <Text style={styles.header}>
@@ -56,11 +73,7 @@ const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
               </Text>
               <Spacer spacing="extraLarge" orientation="vertical" />
               <TextInput
-                onSubmitEditing={() =>
-                  navigation.navigate(COUNTRY_RESULT_SCREEN, {
-                    searchQuery: capitalizeSearch(),
-                  })
-                }
+                onSubmitEditing={() => handleSearch(textValue)}
                 onChangeText={handleInputChange}
                 value={textValue}
                 placeholder={'Enter a ' + searchParam}
@@ -71,17 +84,13 @@ const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
               <IconButton
                 icon="search"
                 iconSize="medium"
-                onPress={() =>
-                  navigation.navigate(NAVIGATION_KEY, {
-                    searchQuery: capitalizeSearch(),
-                  })
-                }
+                onPress={() => handleSearch(textValue)}
               />
             </View>
           </View>
         </TouchableWithoutFeedback>
       </Container>
-    </ImageBackground >
+    </ImageBackground>
   );
 };
 
@@ -109,12 +118,19 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    borderColor: 'orange', borderRadius: 5,
+    borderColor: 'orange',
+    borderRadius: 5,
     borderWidth: 2,
     padding: 11,
     width: '75%',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
+
+  errorText: {
+    backgroundColor: 'black',
+    color: 'red',
+    fontSize: 20
+  }
 });
 
 export default SearchScreen;

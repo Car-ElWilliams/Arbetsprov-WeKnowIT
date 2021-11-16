@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+  StatusBar,
+} from 'react-native';
 import { Spacer, Container } from '../common';
 
 const CityResultScreen: React.FC<{ route: string }> = ({ route }) => {
@@ -47,6 +53,7 @@ const CityResultScreen: React.FC<{ route: string }> = ({ route }) => {
 
   return (
     <Container style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       {showError && (
         <View>
           <Text style={styles.cityName}>{searchQuery}</Text>

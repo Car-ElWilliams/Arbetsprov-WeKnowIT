@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar
 } from 'react-native';
 import { Button, Spacer } from '../common';
 import { CITY_RESULT_SCREEN } from '../navigation/constants/routes';
@@ -59,6 +60,7 @@ const CountryResultScreen: React.FC<{ navigation: any; route: any }> = ({
   const headerContent: React.FC = () => {
     return (
       <View style={styles.headerContainer}>
+        <StatusBar barStyle="dark-content" />
         <Text style={styles.header}>{searchQuery}</Text>
         <Spacer spacing="large" orientation="vertical" />
         {showError && (
