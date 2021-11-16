@@ -11,7 +11,7 @@ Android: <br />
 npx react-native start <br />
 npx react-native run android <br />
 
-IOS:__ 
-pod install__ 
-npx react-native start__
-npx react-native run ios__
+IOS:<br />
+pod install <br /> 
+npx react-native start <br />
+npx react-native run ios<br />
