@@ -5,65 +5,64 @@ import {
   FlatList,
   Text,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import { Button, Spacer } from '../common';
 import { CITY_RESULT_SCREEN } from '../navigation/constants/routes';
+import countries from 'i18n-iso-countries';
+import * as engLang from 'i18n-iso-countries/langs/en.json';
 
-const CountryResultScreen: React.FC<{ navigation: any; route: string }> = ({
+countries.registerLocale(engLang);
+
+const CountryResultScreen: React.FC<{ navigation: any; route: any }> = ({
   navigation,
   route,
 }) => {
-  const { searchQuery, searchFilter } = route?.params;
+  const { searchQuery } = route?.params;
+  const countryToAlpha2Code = countries.getAlpha2Code(searchQuery, 'en');
 
-  const currentView = searchFilter
   const [data, setData] = useState<any>([]);
   const [dataChunk, setDataChunk] = useState<number>(5);
   const [buttonTitle, setButtonTitle] = useState<string>('Load more data');
-  const [disableButton, setDisableButton] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
 
-  const getData = async () => {
-    try {
-      setIsLoading(true);
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
 
-      if (currentView === 'country') {
         const fetchData = await fetch(
-          `http://api.geonames.org/searchJSON?&q=${searchQuery}&maxRows=${dataChunk}&featureCode=PPL&featureCode=PPLC&featureCode=PPLA&orderby=population&username=weknowit`,
+          `http://api.geonames.org/searchJSON?&country=${countryToAlpha2Code}&maxRows=${dataChunk}&orderby=population&featureCode=ADM2&featureCode=PPLC&featureCode=PPL&featureCode=PPLA&featureClass=P&username=weknowit`,
         );
+
         const response = await fetchData.json();
-        const filteredResponse = response.geonames.filter(
-          (value: any) => value.countryName === searchQuery,
-        );
 
         response.geonames.length === 0
           ? setShowError(true)
-          : setData(filteredResponse);
+          : setData(response.geonames);
+
+        if (response.geonames === data) {
+          setButtonTitle('No more data to load');
+        }
+
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setShowError(true);
+        setIsLoading(false);
       }
-
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataChunk]);
 
   const headerContent: React.FC = () => {
     return (
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>
-          {searchQuery}
-        </Text>
-        <Spacer spacing="medium" orientation="vertical" />
-        {showError && <Text>No {currentView} was found</Text>}
-        {currentView === 'population' && (
-          <View>
-            <Text>{data[0]?.population}</Text>
-          </View>
+        <Text style={styles.header}>{searchQuery}</Text>
+        <Spacer spacing="large" orientation="vertical" />
+        {showError && (
+          <Text style={styles.errorText}>No country was found</Text>
         )}
       </View>
     );
@@ -75,14 +74,15 @@ const CountryResultScreen: React.FC<{ navigation: any; route: string }> = ({
       ListHeaderComponent={headerContent}
       ListFooterComponent={
         <View>
-          {isLoading && data.length < 1 && <ActivityIndicator size="large" color="black" />}
+          {isLoading && data.length < 1 && (
+            <ActivityIndicator size="large" color="black" />
+          )}
           {data.length > 1 && (
             <Button
               title={buttonTitle}
               onPress={() => setDataChunk(dataChunk + 10)}
               variant="country"
               size="small"
-              disabled={disableButton}
               style={styles.button}
               loading={isLoading}
             />
@@ -91,15 +91,19 @@ const CountryResultScreen: React.FC<{ navigation: any; route: string }> = ({
         </View>
       }
       renderItem={({ item }: any) => (
-        <View style={styles.citiesContainer}
+        <TouchableOpacity
+          activeOpacity={0.3}
+          onPress={() =>
+            navigation.navigate(CITY_RESULT_SCREEN, {
+              city: item.name,
+              population: item.population,
+            })
+          }
         >
-          <TouchableOpacity
-            onPress={() => navigation.navigate(CITY_RESULT_SCREEN, { city: item.name, population: item.population })}
-            style={{ alignSelf: 'center' }}
-          >
+          <View style={styles.citiesContainer}>
             <Text style={styles.cityName}>{item?.name} </Text>
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
       )}
     />
   );
@@ -108,13 +112,18 @@ const CountryResultScreen: React.FC<{ navigation: any; route: string }> = ({
 const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
-    padding: 40
+    padding: 40,
   },
 
   header: {
     fontSize: 30,
     textAlign: 'center',
-    color: 'black'
+    color: 'black',
+  },
+
+  errorText: {
+    fontSize: 16,
+    textAlign: 'center',
   },
 
   container: {
@@ -131,20 +140,23 @@ const styles = StyleSheet.create({
 
   cityName: {
     fontSize: 20,
-    color: 'black'
+    color: 'black',
+    alignSelf: 'center',
   },
 
   button: {
-    alignSelf: 'center', marginVertical: 20, shadowColor: "#000000",
+    alignSelf: 'center',
+    marginVertical: 20,
+    shadowColor: '#000000',
     elevation: 1,
     zIndex: 1,
     shadowOpacity: 0.8,
     shadowRadius: 3,
     shadowOffset: {
       height: 1,
-      width: 1
-    }
-  }
+      width: 1,
+    },
+  },
 });
 
 export default CountryResultScreen;

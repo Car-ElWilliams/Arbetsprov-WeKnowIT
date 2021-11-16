@@ -8,6 +8,7 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
+  ImageBackground
 } from 'react-native';
 import {
   COUNTRY_RESULT_SCREEN,
@@ -20,8 +21,9 @@ const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
 }) => {
   const searchParam = route?.params?.search;
   const NAVIGATION_KEY =
-  searchParam === 'city' ? CITY_RESULT_SCREEN : COUNTRY_RESULT_SCREEN;
-  
+    searchParam === 'city' ? CITY_RESULT_SCREEN : COUNTRY_RESULT_SCREEN;
+
+  const backgroundImage = searchParam === 'city' ? 'https://wallpaperaccess.com/full/856.jpg' : 'https://wallpaperaccess.com/full/290571.jpg'
   const [textValue, setTextValue] = useState<string>('');
 
   const handleInputChange = (e: string) => {
@@ -33,52 +35,53 @@ const SearchScreen: React.FC<{ navigation: any; route: any }> = ({
 
     //united states => United States
     const capitalizeWords = trimText.replace(/(^\w|\s\w)/g, (letter) =>
-      letter.toUpperCase(),
+      letter.toUpperCase()
     );
 
     return capitalizeWords;
   };
 
   return (
-    <Container style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flexGrow: 1 }}>
-          <StatusBar barStyle="dark-content" />
-          <Spacer spacing="extraLarge" orientation="vertical" />
-          <View style={styles.searchContainer}>
-            <Text style={styles.header}>
-              SEARCH BY {'\n'}
-              {searchParam === 'city' ? 'CITY' : 'COUNTRY'}
-            </Text>
+    <ImageBackground source={{ uri: backgroundImage }} style={styles.imageBackground} resizeMode="cover"
+    >
+      <Container style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{ flexGrow: 1 }}>
+            <StatusBar barStyle="light-content" />
             <Spacer spacing="extraLarge" orientation="vertical" />
-            <TextInput
-              onSubmitEditing={() =>
-                navigation.navigate(COUNTRY_RESULT_SCREEN, {
-                  searchQuery: capitalizeSearch(),
-                  searchFilter: searchParam,
-                })
-              }
-              onChangeText={handleInputChange}
-              value={textValue}
-              placeholder={'Enter a ' + searchParam}
-              keyboardType="default"
-              style={styles.textInput}
-            />
-            <Spacer spacing="medium" orientation="vertical" />
-            <IconButton
-              icon="search"
-              iconSize="medium"
-              onPress={() =>
-                navigation.navigate(NAVIGATION_KEY, {
-                  searchQuery: capitalizeSearch(),
-                  searchFilter: searchParam,
-                })
-              }
-            />
+            <View style={styles.searchContainer}>
+              <Text style={styles.header}>
+                SEARCH BY {'\n'}
+                {searchParam === 'city' ? 'CITY' : 'COUNTRY'}
+              </Text>
+              <Spacer spacing="extraLarge" orientation="vertical" />
+              <TextInput
+                onSubmitEditing={() =>
+                  navigation.navigate(COUNTRY_RESULT_SCREEN, {
+                    searchQuery: capitalizeSearch(),
+                  })
+                }
+                onChangeText={handleInputChange}
+                value={textValue}
+                placeholder={'Enter a ' + searchParam}
+                keyboardType="default"
+                style={styles.textInput}
+              />
+              <Spacer spacing="medium" orientation="vertical" />
+              <IconButton
+                icon="search"
+                iconSize="medium"
+                onPress={() =>
+                  navigation.navigate(NAVIGATION_KEY, {
+                    searchQuery: capitalizeSearch(),
+                  })
+                }
+              />
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </Container>
+        </TouchableWithoutFeedback>
+      </Container>
+    </ImageBackground >
   );
 };
 
@@ -86,6 +89,11 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: 'center',
+  },
+
+  imageBackground: {
+    width: '100%',
+    height: '100%',
   },
 
   searchContainer: {
@@ -96,15 +104,16 @@ const styles = StyleSheet.create({
 
   header: {
     fontSize: 34,
-    color: 'black',
+    color: 'white',
     textAlign: 'center',
   },
 
   textInput: {
-    borderColor: 'black',
+    borderColor: 'orange', borderRadius: 5,
     borderWidth: 2,
-    padding: 10,
+    padding: 11,
     width: '75%',
+    backgroundColor: 'white'
   },
 });
 

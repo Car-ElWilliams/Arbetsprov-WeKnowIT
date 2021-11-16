@@ -14,10 +14,14 @@ const HomeNavigator = () => {
           component={screen.component}
           options={({ navigation }) => ({
             headerShown: screen.name !== 'HomeScreen',
+            headerTransparent: screen.name === 'SearchScreen',
             title: 'CityPop',
             headerStyle: {
               backgroundColor: 'transparent',
               elevation: 0,
+            },
+            headerTitleStyle: {
+              color: screen.name === 'SearchScreen' ? 'white' : 'black',
             },
             headerLeft: () => (
               <IconButton
@@ -26,6 +30,7 @@ const HomeNavigator = () => {
                 variant="flatten"
                 onPress={() => navigation.pop()}
                 style={{ marginLeft: 20 }}
+                color={screen.name === 'SearchScreen' ? 'white' : 'black'}
               />
             ),
           })}
