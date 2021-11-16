@@ -7,9 +7,9 @@ Project has not been created on a Apple computer hence testing on IOS has not be
 
 ## How To Start Project
 
-Android:__
-npx react-native start__
-npx react-native run android__
+Android: <br />
+npx react-native start <br />
+npx react-native run android <br />
 
 IOS:__ 
 pod install__ 
