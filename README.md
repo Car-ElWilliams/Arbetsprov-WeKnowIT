@@ -7,7 +7,7 @@ Project has not been created on a Apple computer hence testing on IOS has not be
 
 ## How To Start Project
 
-Install node moudules: 
+Install node modules: 
 npm install 
 
 Android: <br />
