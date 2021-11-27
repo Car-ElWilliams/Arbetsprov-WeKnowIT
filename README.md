@@ -7,11 +7,14 @@ Project has not been created on a Apple computer hence testing on IOS has not be
 
 ## How To Start Project
 
+Install node moudules: 
+npm install 
+
 Android: <br />
 npx react-native start <br />
 npx react-native run android <br />
 
 IOS:<br />
-pod install <br /> 
+cd ios && pod install <br /> 
 npx react-native start <br />
 npx react-native run ios<br />
